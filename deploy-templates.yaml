@@ -1,0 +1,23 @@
+---
+# webapp is deployed LAST because we need secrets and persistent volumes up 1st
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: templates
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  destination:
+    server: "https://kubernetes.default.svc"
+  source:
+    repoURL: https://github.com/buildstar-online/argocd-apps.git
+    path: templates/
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
