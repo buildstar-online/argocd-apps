@@ -36,7 +36,7 @@ spec:
             client_id: 
             client_secret: 
             callback_urls: 
-              - https://vouch.buildstar.onlinet/auth
+              - https://vouch.buildstar.online/auth
             preferredDomain: cloudydev.net
         ingress:
           enabled: true
