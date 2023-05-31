@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: harbor
+spec:
+  destination:
+    namespace: harbor
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://helm.goharbor.io'
+    targetRevision: 1.12.1
+    chart: harbor
+    helm:
+      skipCrds: false
+      values: |
+        expose:
+          type: ingress
+          tls:
+            enabled: true
+            certSource: secret
+            secret: 
+              secretName: "tls-harbor"
+          secret:
+            secretName: harbor-tls
+            notarySecretName: habor-notary-tls
+          ingress:
+            hosts:
+              core: core.harbor.buildstar.online
+              notary: notary.harbor.buildstar.online
+            className: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-prod"
+              ngress.kubernetes.io/ssl-redirect: "true"
+              ingress.kubernetes.io/proxy-body-size: "0"
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        externalURL: https://core.harbor.buildstar.online
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
