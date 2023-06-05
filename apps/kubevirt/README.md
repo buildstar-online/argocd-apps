@@ -17,6 +17,7 @@ export IMAGE_PATH=lunar-server-cloudimg-amd64.img
 export VOLUME_TYPE=pvc
 export SIZE=16Gi
 export PROXY_ADDRESS=$(kubectl get svc cdi-uploadproxy -n cdi -o json | jq --raw-output '.spec.clusterIP')
+# kubectl get svc cdi-uploadproxy-loadbalancer -n cdi -o json | jq --raw-output '.status.loadBalancer.ingress[].ip'
 
 virtctl image-upload $VOLUME_TYPE $VOLUME_NAME \
     --size=$SIZE \
