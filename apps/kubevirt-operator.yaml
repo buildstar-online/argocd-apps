@@ -18,7 +18,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/cloudymax/argocd-nvidia-lab.git
-    path: kubevirt/
+    path: kubevirt/operator/
   destination:
     server: "https://kubernetes.default.svc"
     namespace: kubevirt
