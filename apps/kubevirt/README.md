@@ -11,13 +11,13 @@ kubectl get namespace "<NAMESPACE>" -o json   | tr -d "\n" | sed "s/\"finalizers
 
 ```bash
 ## PVC
-export VOLUME_NAME=lunar-pvc2
-export NAMESPACE="kubevirt"
-export IMAGE_PATH=lunar-server-cloudimg-amd64.img
+export VOLUME_NAME=debian12-pvc
+export NAMESPACE="debian12"
+export IMAGE_PATH=debian-12-generic-amd64-daily.qcow2
 export VOLUME_TYPE=pvc
 export SIZE=16Gi
-export PROXY_ADDRESS=$(kubectl get svc cdi-uploadproxy -n cdi -o json | jq --raw-output '.spec.clusterIP')
-# kubectl get svc cdi-uploadproxy-loadbalancer -n cdi -o json | jq --raw-output '.status.loadBalancer.ingress[].ip'
+export PROXY_ADDRESS=$(kubectl get svc cdi-uploadproxy-loadbalancer -n cdi -o json | jq --raw-output '.spec.clusterIP')
+# $(kubectl get svc cdi-uploadproxy -n cdi -o json | jq --raw-output 
 
 virtctl image-upload $VOLUME_TYPE $VOLUME_NAME \
     --size=$SIZE \
@@ -27,12 +27,12 @@ virtctl image-upload $VOLUME_TYPE $VOLUME_NAME \
     --insecure
     
 ## DV
-export VOLUME_NAME=lunar-datavolume
-export NAMESPACE="kubevirt"
-export IMAGE_PATH=lunar-server-cloudimg-amd64.img
+export VOLUME_NAME=debian12-datavolume
+export NAMESPACE="debian12"
+export IMAGE_PATH=debian-12-generic-amd64-daily.qcow2
 export VOLUME_TYPE=dv
-export SIZE=120Gi
-export PROXY_ADDRESS=$(kubectl get svc cdi-uploadproxy -n cdi -o json | jq --raw-output '.spec.clusterIP')
+export SIZE=16Gi
+export PROXY_ADDRESS=$(kubectl get svc cdi-uploadproxy-loadbalancer -n cdi -o json | jq --raw-output '.spec.clusterIP')
 
 virtctl image-upload $VOLUME_TYPE $VOLUME_NAME \
     --size=$SIZE \
