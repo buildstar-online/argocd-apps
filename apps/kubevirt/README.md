@@ -24,7 +24,7 @@ virtctl image-upload $VOLUME_TYPE $VOLUME_NAME \
     --image-path=$IMAGE_PATH \
     --uploadproxy-url=https://$PROXY_ADDRESS:443 \
     --namespace=$NAMESPACE \
-    --insecure
+    --insecure --force-bind
     
 ## DV
 export VOLUME_NAME=debian12-datavolume
@@ -38,7 +38,7 @@ virtctl image-upload $VOLUME_TYPE $VOLUME_NAME \
     --size=$SIZE \
     --image-path=$IMAGE_PATH \
     --uploadproxy-url=https://$PROXY_ADDRESS:443 \
-    --insecure \
+    --insecure --force-bind \
     --namespace=$NAMESPACE \
     --access-mode=ReadWriteOnce 
 ```
