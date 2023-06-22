@@ -13,6 +13,24 @@ spec:
     helm:
       skipCrds: false
       values: |
+        jobservice:
+          nodeSelector: 
+            kubernetes.io/hostname: ax102
+        registry:
+          nodeSelector: 
+            kubernetes.io/hostname: ax102
+        database:
+          internal:
+            nodeSelector: 
+              kubernetes.io/hostname: ax102
+        redis:
+          internal:
+            nodeSelector: 
+              kubernetes.io/hostname: ax102   
+        exporter:
+          internal:
+            nodeSelector: 
+              kubernetes.io/hostname: ax102
         expose:
           type: ingress
           tls:
