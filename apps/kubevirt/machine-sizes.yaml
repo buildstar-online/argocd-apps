@@ -15,7 +15,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
-  project: default
+  project: kubevirt
   source:
     repoURL: https://github.com/cloudymax/argocd-nvidia-lab.git
     path: kubevirt/machine-sizes/
