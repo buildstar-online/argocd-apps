@@ -15,6 +15,7 @@ spec:
       labels:
         app: xgl
     spec:
+    allowPrivilegeEscalation: false
       hostname: xgl
       # Uncomment the below line to disable network isolation for WebRTC connectivity, may show an error if disallowed by the cluster
       hostNetwork: true
@@ -65,7 +66,7 @@ spec:
         - name: ENABLE_AUDIO
           value: "true"
         - name: ENABLE_BASIC_AUTH
-          value: "false"
+          value: "true"
         # Defaults to `PASSWD` if unspecified, choose either `value:` or `secretKeyRef:` but not both at the same time
 #        - name: BASIC_AUTH_PASSWORD
 #          value: "mypasswd"
@@ -134,6 +135,8 @@ spec:
         emptyDir: {}
 #        persistentVolumeClaim:
 #          claimName: xgl-root-vol
+      securityContext:
+        allowPrivilegeEscalation: true
 ---
 apiVersion: v1
 kind: Service
@@ -153,7 +156,7 @@ metadata:
   namespace: glx
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
