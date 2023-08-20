@@ -467,11 +467,11 @@ tls:
     # Bring your own certs scenario. If provided, tls.init section will be ignored.
     provided: false
     # Secret name for the client root cert.
-    clientRootSecret: cockroachdb-root
+    clientRootSecret: crdb-app-cockroachdb-root-client-br4d5
     # Secret name for node cert.
-    nodeSecret: cockroachdb-node
+    nodeSecret: crdb-app-cockroachdb-node-s7cdp
     # Secret name for CA cert
-    caSecret: cockroach-ca
+    caSecret: cockroachlabs-tls
     # Enable if the secret is a dedicated TLS.
     # TLS secrets are created by cert-mananger, for example.
     tlsSecret: true
