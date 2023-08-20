@@ -512,7 +512,7 @@ tls:
       kind: ClusterIssuer
       name: letsencrypt-staging
       # Make it false when you are providing your own CA issuer
-      isSelfSignedIssuer: true
+      isSelfSignedIssuer: false
       # Duration of Client certificates in hours
       clientCertDuration: 672h
       # Expiry window of client certificates means a window before actual expiry in which client certs should be rotated.
