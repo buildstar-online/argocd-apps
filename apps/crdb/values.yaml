@@ -332,10 +332,10 @@ ingress:
     - /
   hosts:
     - crdb.buildstar.online
-  tls:
-    - secretName: crdb-tls
-      hosts: 
-        - crdb.buildstar.online
+  tls: []
+  #  - secretName: crdb-tls
+  #    hosts: 
+  #      - crdb.buildstar.online
 
 prometheus:
   enabled: true
@@ -465,7 +465,7 @@ tls:
     image: busybox
   certs:
     # Bring your own certs scenario. If provided, tls.init section will be ignored.
-    provided: true
+    provided: false
     # Secret name for the client root cert.
     clientRootSecret: crdb-app-cockroachdb-root-client-br4d5
     # Secret name for node cert.
