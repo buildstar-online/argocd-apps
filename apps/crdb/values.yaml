@@ -460,12 +460,12 @@ init:
 
 # Whether to run securely using TLS certificates.
 tls:
-  enabled: true
+  enabled: false
   copyCerts:
     image: busybox
   certs:
     # Bring your own certs scenario. If provided, tls.init section will be ignored.
-    provided: false
+    provided: true
     # Secret name for the client root cert.
     clientRootSecret: crdb-app-cockroachdb-root-client-br4d5
     # Secret name for node cert.
@@ -510,7 +510,7 @@ tls:
       svcAccountAnnotations: {}
 
     # Use cert-manager to issue certificates for mTLS.
-    certManager: true
+    certManager: false
     # Specify an Issuer or a ClusterIssuer to use, when issuing
     # node and client certificates. The values correspond to the
     # issuerRef specified in the certificate.
