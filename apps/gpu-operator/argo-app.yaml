@@ -1,0 +1,31 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gpu-operator-app
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: gpu-operator
+  sources:
+    # official helm repo
+    - repoURL: 'https://helm.ngc.nvidia.com/nvidia'
+      chart: gpu-operator
+      targetRevision: v23.6.0
+      helm:
+        valueFiles:
+        - $values/apps/gpu-operator/values.yaml
+    # our values.yaml file locally
+    - repoURL: 'https://github.com/buildstar-online/argocd-apps.git'
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+    automated:
+      prune: true
+      selfHeal: true
