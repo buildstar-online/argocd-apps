@@ -325,10 +325,10 @@ ingress:
     - /
   hosts:
     - crdb.cooldogs.net
-  tls:
-    - secretName: cockroachlabs-tls
-      hosts: 
-        - crdb.cooldogs.net
+  tls: []
+  #  - secretName: cockroachlabs-tls
+  #    hosts: 
+  #      - crdb.cooldogs.net
 
 prometheus:
   enabled: true
