@@ -2,21 +2,30 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crdb
+  name: crdb-app
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
-  project: kubevirt
-  source:
-    repoURL: https://github.com/buildstar-online/argocd-apps.git
-    path: apps/crdb/values/nodeport/
+  project: default
   destination:
     server: "https://kubernetes.default.svc"
     namespace: crdb
+  sources:
+    # official nextcloud helm repo
+    - repoURL: 'https://charts.cockroachdb.com/'
+      chart: cockroachdb
+      targetRevision: 11.1.5
+      helm:
+        valueFiles:
+        - $values/apps/crdb/values.yaml
+    # our values.yaml file locally
+    - repoURL: 'https://github.com/buildstar-online/argocd-apps.git'
+      targetRevision: main
+      ref: values
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
     automated:
       prune: true
       selfHeal: true
