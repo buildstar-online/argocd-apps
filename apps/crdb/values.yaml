@@ -474,7 +474,7 @@ tls:
     caSecret: cockroachlabs-tls
     # Enable if the secret is a dedicated TLS.
     # TLS secrets are created by cert-mananger, for example.
-    tlsSecret: true
+    tlsSecret: false
     # Enable if the you want cockroach db to create its own certificates
     selfSigner:
       # If set, the cockroach db will generate its own certificates
