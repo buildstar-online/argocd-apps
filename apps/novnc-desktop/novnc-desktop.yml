@@ -1,0 +1,76 @@
+---
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: nvidia
+handler: nvidia
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: remote-desktop
+  namespace: novnc
+spec:
+  selector:
+    matchLabels:
+      app: remote-desktop
+  template:
+    metadata:
+      labels:
+        app: remote-desktop
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: remote-desktop
+        image: deserializeme/ubuntu-xfce
+        env:
+        - name: "RESOLUTION"
+          value: "1920x1080"
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "1000m"
+          limits:
+            memory: "8000Mi"
+            cpu: "4000m"
+            nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: remote-desktop-service
+  namespace: novnc
+spec:
+  selector:
+    app: remote-desktop
+  ports:
+    - protocol: TCP
+      port: 6080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: remote-desktop-ingress
+  namespace: novnc
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  tls:
+    - hosts:
+      - novnc.buildstar.online
+      secretName: novnc-tls
+  rules:
+  - host: novnc.buildstar.online
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: remote-desktop-service
+            port:
+              number: 6080
