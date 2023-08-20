@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crdb
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: kubevirt
+  source:
+    repoURL: https://github.com/buildstar-online/argocd-apps.git
+    path: apps/crdb/values/nodeport/
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: crdb
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
