@@ -423,12 +423,12 @@ init:
     clusterSettings:
       # cluster.organization: "'FooCorp - Local Testing'"
       # enterprise.license: "'xxxxx'"
-    users: []
+    users:
      - name: zitadel
        password:
        # https://www.cockroachlabs.com/docs/stable/create-user.html#parameters
        options: [LOGIN]
-    databases: []
+    databases:
      - name: zitadel
     #   # https://www.cockroachlabs.com/docs/stable/create-database.html#parameters
     #   options: [encoding='utf-8']
