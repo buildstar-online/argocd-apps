@@ -137,7 +137,7 @@ conf:
   #          Usually, this option is intended to be used in conjunction with
   #          `statefulset.replicas: 1` for temporary one-time deployments (like
   #          running E2E tests, for example).
-  single-node: false
+  single-node: true
 
   # If non-empty, create a SQL audit log in the specified directory.
   sql-audit-dir: ""
@@ -316,17 +316,19 @@ service:
 
 # CockroachDB's ingress for web ui.
 ingress:
-  enabled: false
+  enabled: true
   labels: {}
-  annotations: {}
-  #   kubernetes.io/ingress.class: nginx
-  #   cert-manager.io/cluster-issuer: letsencrypt
-  paths: [/]
-  hosts: []
-  # - cockroachlabs.com
-  tls: []
-  # - hosts: [cockroachlabs.com]
-  #   secretName: cockroachlabs-tls
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+  paths: 
+    - /
+  hosts:
+    - crdb.cooldogs.net
+  tls:
+    - secretName: cockroachlabs-tls
+      hosts: 
+        - crdb.cooldogs.net
 
 prometheus:
   enabled: true
@@ -358,7 +360,7 @@ storage:
   persistentVolume:
     enabled: true
 
-    size: 100Gi
+    size: 10Gi
 
     # If defined, then `storageClassName: <storageClass>`.
     # If set to "-", then `storageClassName: ""`, which disables dynamic
@@ -416,21 +418,22 @@ init:
     enabled: true
 
   provisioning:
-    enabled: false
+    enabled: true
     # https://www.cockroachlabs.com/docs/stable/cluster-settings.html
     clusterSettings:
       # cluster.organization: "'FooCorp - Local Testing'"
       # enterprise.license: "'xxxxx'"
     users: []
-    # - name:
-    #   password:
-    #   # https://www.cockroachlabs.com/docs/stable/create-user.html#parameters
-    #   options: [LOGIN]
+     - name: zitadel
+       password:
+       # https://www.cockroachlabs.com/docs/stable/create-user.html#parameters
+       options: [LOGIN]
     databases: []
-    # - name:
+     - name: zitadel
     #   # https://www.cockroachlabs.com/docs/stable/create-database.html#parameters
     #   options: [encoding='utf-8']
-    #   owners: []
+       owners: 
+         - zitadel
     #   # https://www.cockroachlabs.com/docs/stable/grant.html#parameters
     #   owners_with_grant_option: []
     #   # Backup schedules are not idemponent for now and will fail on next run
@@ -500,14 +503,14 @@ tls:
       svcAccountAnnotations: {}
 
     # Use cert-manager to issue certificates for mTLS.
-    certManager: false
+    certManager: true
     # Specify an Issuer or a ClusterIssuer to use, when issuing
     # node and client certificates. The values correspond to the
     # issuerRef specified in the certificate.
     certManagerIssuer:
       group: cert-manager.io
-      kind: Issuer
-      name: cockroachdb
+      kind: ClusterIssuer
+      name: letsencrypt-staging
       # Make it false when you are providing your own CA issuer
       isSelfSignedIssuer: true
       # Duration of Client certificates in hours
