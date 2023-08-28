@@ -28,7 +28,7 @@ server:
       - /
 
     # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
-    pathType: ImplementationSpecific
+    pathType: Prefix
     # -- Additional ingress paths
     extraPaths: []
       # - path: /*
