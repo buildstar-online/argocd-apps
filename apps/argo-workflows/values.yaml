@@ -15,7 +15,3 @@ server:
       - /
     pathType: ImplementationSpecific
     extraPaths: []
-    tls:
-      - secretName: argoworkflows-example-tls
-        hosts:
-          - workflows.buildstar.online
