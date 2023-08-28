@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/buildstars-online/argocd-apps.git
+    repoURL: https://github.com/buildstar-online/argocd-apps.git
     path: apps/landing-page/
   destination:
     server: "https://kubernetes.default.svc"
