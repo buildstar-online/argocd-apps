@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-hello-web-server
-  namespace: nginx-hello
+  name: landing-page-deployment
+  namespace: landing-page
 spec:
   selector:
     matchLabels:
-      app: nginx-hello
+      app: landing-page
   template:
     metadata:
       labels:
-        app: nginx-hello
+        app: landing-page
     spec:
       containers:
-      - name: nginx-hello
+      - name: landing-page
         image: nginx
         ports:
         - containerPort: 80
