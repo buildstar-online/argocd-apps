@@ -17,10 +17,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - buildstar.online
+      - home.buildstar.online
       secretName: "landing-page-tls"
   rules:
-  - host: buildstar.online
+  - host: home.buildstar.online
     http:
       paths:
       - path: /
