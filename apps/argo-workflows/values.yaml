@@ -74,9 +74,9 @@ controller:
   # -- Globally limits the rate at which pods are created.
   # This is intended to mitigate flooding of the Kubernetes API server by workflows with a large amount of
   # parallel nodes.
-  resourceRateLimit: {}
-    # limit: 10
-    # burst: 1
+  resourceRateLimit: 
+    limit: 20
+    burst: 1
 
   rbac:
     # -- Adds Role and RoleBinding for the controller.
@@ -103,7 +103,7 @@ controller:
   # podPortName: http
   metricsConfig:
     # -- Enables prometheus metrics server
-    enabled: false
+    enabled: true
     # -- Path is the path where metrics are emitted. Must start with a "/".
     path: /metrics
     # -- Port is the port where metrics are emitted
@@ -548,26 +548,30 @@ server:
   # ref: https://kubernetes.io/docs/user-guide/ingress/
   ingress:
     # -- Enable an ingress resource
-    enabled: false
+    enabled: true
     # -- Additional ingress annotations
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/proxy-body-size: 100M
+      ingress.kubernetes.io/app-root: "/"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
     # -- Additional ingress labels
     labels: {}
     # -- Defines which ingress controller will implement the resource
-    ingressClassName: ""
+    ingressClassName: "nginx"
 
     # -- List of ingress hosts
     ## Hostnames must be provided if Ingress is enabled.
     ## Secrets must be manually created in the namespace
-    hosts: []
-      # - argoworkflows.example.com
+    hosts:
+      - workflows.buildstar.online
 
     # -- List of ingress paths
     paths:
       - /
 
     # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
-    pathType: Prefix
+    pathType: ImplementationSpecific
     # -- Additional ingress paths
     extraPaths: []
       # - path: /*
@@ -584,10 +588,10 @@ server:
       #         name: use-annotation
 
     # -- Ingress TLS configuration
-    tls: []
-      # - secretName: argoworkflows-example-tls
-      #   hosts:
-      #     - argoworkflows.example.com
+    tls:
+      - secretName: argoworkflows-example-tls
+        hosts:
+          - workflows.buildstar.online
 
   ## Create a Google Backendconfig  for use with the GKE Ingress Controller
   ## https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-configuration#configuring_ingress_features_through_backendconfig_parameters
